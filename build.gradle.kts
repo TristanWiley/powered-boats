@@ -39,7 +39,6 @@ githubRelease {
 
     releaseAssets.from(layout.buildDirectory.dir("libs").map { it.asFile.listFiles() })
     prerelease = true
-    draft = true
 }
 
 idea {
