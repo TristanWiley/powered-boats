@@ -1,12 +1,12 @@
 plugins {
     kotlin("jvm") version "2.0.20"
     id("fabric-loom") version "1.7-SNAPSHOT"
-    `maven-publish`
     id("com.diffplug.spotless") version "7.0.0.BETA2"
+    id("com.github.breadmoirai.github-release") version "2.4.1"
 }
 
 group = "io.github.dyprex.poweredboats"
-version = providers.gradleProperty("version")
+version = providers.gradleProperty("version").get()
 
 repositories {
     mavenCentral()
@@ -28,13 +28,18 @@ loom {
     accessWidenerPath.set(file("src/main/resources/powered-boats.accesswidener"))
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("mavenJava") {
-            from(components["java"])
-        }
-    }
-    repositories {}
+githubRelease {
+    owner = "dyprex"
+    repo = "powered-boats"
+    token(providers.gradleProperty("ghToken"))
+
+    tagName = "v${project.version}"
+    targetCommitish = "master"
+    generateReleaseNotes = true
+
+    releaseAssets.from(layout.buildDirectory.dir("libs").map { it.asFile.listFiles() })
+    prerelease = true
+    draft = true
 }
 
 idea {
@@ -58,15 +63,19 @@ dependencies {
     modImplementation("net.fabricmc:fabric-language-kotlin:1.12.2+kotlin.2.0.20")
 }
 
-tasks.processResources {
-    inputs.property("version", project.version)
+tasks {
+    processResources {
+        inputs.property("version", project.version)
 
-    filesMatching("fabric.mod.json") {
-        expand(project.properties)
+        filesMatching("fabric.mod.json") { expand(project.properties) }
     }
-}
 
-tasks.withType<AbstractArchiveTask>().configureEach {
-    isPreserveFileTimestamps = false
-    isReproducibleFileOrder = true
+    withType<AbstractArchiveTask>().configureEach {
+        isPreserveFileTimestamps = false
+        isReproducibleFileOrder = true
+    }
+
+    register("publish") {
+        dependsOn(githubRelease)
+    }
 }

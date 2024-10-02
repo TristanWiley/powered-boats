@@ -4,8 +4,9 @@ on:
   push:
     branches:
       - master
+    tags:
+      - v*
 
-#permissions: {}
 permissions:
   contents: read
 
@@ -25,11 +26,11 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
       - name: Build
-        run: ./gradlew build
+        run: ./gradlew build --no-daemon -i
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: artifacts
+          name: libs
           path: build/libs/*
           if-no-files-found: error
   publish:
@@ -40,7 +41,21 @@ jobs:
     permissions:
       contents: write # needed for creating GH releases
     steps:
+      - uses: actions/checkout@v4
+        with:
+          show-progress: false
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: temurin
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: libs
+          path: build/libs
       - name: Publish release artifacts
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./gradlew publish
+          ORG_GRADLE_PROJECT_ghToken: ${{ secrets.GITHUB_TOKEN }}
+        run: ./gradlew publish --no-daemon -i
