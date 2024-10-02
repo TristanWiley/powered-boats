@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#O"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:furnace"
+    },
+    "O": {
+      "item": "minecraft:oak_boat"
+    }
+  },
+  "result": {
+    "id": "powered-boats:oak_furnace_boat",
+    "count": 1
+  }
+}

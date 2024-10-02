@@ -1,0 +1,3 @@
+accessWidener v2 named
+
+extendable method net/minecraft/item/BoatItem createEntity (Lnet/minecraft/world/World;Lnet/minecraft/util/hit/HitResult;Lnet/minecraft/item/ItemStack;Lnet/minecraft/entity/player/PlayerEntity;)Lnet/minecraft/entity/vehicle/BoatEntity;

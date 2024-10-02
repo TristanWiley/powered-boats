@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "id": "powered-boats",
+  "version": "${version}",
+  "name": "Powered Boats (Boat with Furnace)",
+  "description": "Adds powered boats (Boat with Furnace) to the game.",
+  "authors": [
+    "dyprex"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/powered-boats",
+    "sources": "https://github.com/dyprex/powered-boats"
+  },
+  "license": "MIT License",
+  "icon": "assets/powered-boats/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      {
+        "value": "io.github.dyprex.poweredboats.PoweredBoatsInitializer",
+        "adapter": "kotlin"
+      }
+    ],
+    "client": [
+      {
+        "value": "io.github.dyprex.poweredboats.PoweredBoatsClientInitializer",
+        "adapter": "kotlin"
+      }
+    ]
+  },
+  "accessWidener": "powered-boats.accesswidener",
+  "depends": {
+    "fabricloader": ">=0.16.5",
+    "minecraft": "~1.21.1",
+    "java": ">=21",
+    "fabric-api": "*",
+    "fabric-language-kotlin": "*"
+  },
+  "suggests": {}
+}
