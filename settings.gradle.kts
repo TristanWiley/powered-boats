@@ -9,3 +9,5 @@ pluginManagement {
 }
 
 rootProject.name = "powered-boats"
+include("fabric")
+rootProject.children.forEach { it.name = "${rootProject.name}-${it.name}" }

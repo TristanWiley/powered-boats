@@ -31,7 +31,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: libs
-          path: build/libs/*
+          path: fabric/build/libs*
           if-no-files-found: error
   publish:
     needs: build
@@ -54,7 +54,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: libs
-          path: build/libs
+          path: fabric/build/libs
       - name: Publish release artifacts
         env:
           ORG_GRADLE_PROJECT_ghToken: ${{ secrets.GITHUB_TOKEN }}
