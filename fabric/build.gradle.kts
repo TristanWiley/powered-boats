@@ -1,8 +1,12 @@
+import net.darkhax.curseforgegradle.Constants.RELEASE_TYPE_BETA
+import net.darkhax.curseforgegradle.TaskPublishCurseForge
+
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.fabric.loom)
     alias(libs.plugins.spotless)
     alias(libs.plugins.githubRelease)
+    alias(libs.plugins.curseforgeGradle)
 }
 
 group = "io.github.dyprex.poweredboats"
@@ -84,7 +88,11 @@ tasks {
         inputs.property("version", project.version)
 
         filesMatching("fabric.mod.json") {
-            expand("version" to version)
+            expand(
+                "version" to version,
+                "fabric_loader" to libs.versions.fabric.loader.get(),
+                "minecraft" to libs.versions.minecraft.get()
+            )
         }
     }
 
@@ -93,7 +101,21 @@ tasks {
         isReproducibleFileOrder = true
     }
 
+    val publishCurseForge by registering(TaskPublishCurseForge::class) {
+        group = "publishing"
+        apiToken = providers.gradleProperty("cfToken")
+
+        upload(1113715, remapJar).apply {
+            val minecraftVersion = libs.versions.minecraft.get()
+            displayName = "${project.version} (Fabric $minecraftVersion)"
+            // CurseForge API considers all of these tags "game versions" (see net.darkhax.curseforgegradle.UploadArtifact.gameVersions)
+            addGameVersion("Server", "Client", "Fabric", "Java 21", minecraftVersion)
+            releaseType = RELEASE_TYPE_BETA
+            changelog = "See https://github.com/dyprex/powered-boats/releases"
+        }
+    }
+
     register("publish") {
-        dependsOn(githubRelease)
+        dependsOn(githubRelease, publishCurseForge)
     }
 }

@@ -1,7 +1,11 @@
+[versions]
+minecraft = "1.21.1"
+fabric-loader = "0.16.5"
+
 [libraries]
-minecraft = { module = "com.mojang:minecraft", version = "1.21.1" }
+minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
 fabric-yarn = { module = "net.fabricmc:yarn", version = "1.21.1+build.3" }
-fabric-loader = { module = "net.fabricmc:fabric-loader", version = "0.16.5" }
+fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
 fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version = "0.105.0+1.21.1" }
 fabric-languageKotlin = { module = "net.fabricmc:fabric-language-kotlin", version = "1.12.2+kotlin.2.0.20" }
 
@@ -10,3 +14,4 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "2.0.20" }
 fabric-loom = { id = "fabric-loom", version = "1.7-SNAPSHOT" }
 spotless = { id = "com.diffplug.spotless", version = "7.0.0.BETA2" }
 githubRelease = { id = "com.github.breadmoirai.github-release", version = "2.4.1" }
+curseforgeGradle = { id = "net.darkhax.curseforgegradle", version = "1.1.25" }

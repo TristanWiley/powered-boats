@@ -58,4 +58,5 @@ jobs:
       - name: Publish release artifacts
         env:
           ORG_GRADLE_PROJECT_ghToken: ${{ secrets.GITHUB_TOKEN }}
+          ORG_GRADLE_PROJECT_cfToken: ${{ secrets.CURSEFORGE_TOKEN }}
         run: ./gradlew publish --no-daemon -i
