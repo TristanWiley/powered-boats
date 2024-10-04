@@ -105,8 +105,10 @@ tasks {
         group = "publishing"
         apiToken = providers.gradleProperty("cfToken")
 
-        upload(1113715, remapJar).apply {
-            val minecraftVersion = libs.versions.minecraft.get()
+        val curseForgeProjectId = 1113715
+        val minecraftVersion = libs.versions.minecraft.get()
+        val modJar = files(remapJar).singleFile // accessing like this to avoid introducing dependency to remapJar task
+        upload(curseForgeProjectId, modJar).apply {
             displayName = "${project.version} (Fabric $minecraftVersion)"
             // CurseForge API considers all of these tags "game versions" (see net.darkhax.curseforgegradle.UploadArtifact.gameVersions)
             addGameVersion("Server", "Client", "Fabric", "Java 21", minecraftVersion)
