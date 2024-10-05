@@ -38,12 +38,12 @@ class FurnaceBoatEntity(entityType: EntityType<FurnaceBoatEntity>, world: World)
     override fun tick() {
         super.tick()
         if (!world.isClient && fuelTicksLeft > 0) {
-            // TODO: only reduce fuel if moving or mounted
-            --fuelTicksLeft
+            if (isAccelerating) {
+                --fuelTicksLeft
+            }
             setLit(fuelTicksLeft > 0)
         }
 
-        // TODO: only add fire/smoke particles if moving or mounted
         if (isLit && random.nextInt(10) == 0) {
             val direction = Vec3d.fromPolar(pitch, yaw).negate().multiply(0.5)
             world.addParticle(
@@ -102,6 +102,9 @@ class FurnaceBoatEntity(entityType: EntityType<FurnaceBoatEntity>, world: World)
         super.readCustomDataFromNbt(nbt)
         fuelTicksLeft = nbt.getInt(FUEL_NBT_TAG)
     }
+
+    private val isAccelerating
+        get() = hasPassengers() && isPaddleMoving(0) && isPaddleMoving(1)
 
     companion object {
         private const val ID = "furnace_boat"
