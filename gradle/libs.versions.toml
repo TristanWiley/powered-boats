@@ -1,12 +1,12 @@
 [versions]
 minecraft = "1.21.1"
-fabric-loader = "0.16.5"
+fabric-loader = "0.16.7"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
 fabric-yarn = { module = "net.fabricmc:yarn", version = "1.21.1+build.3" }
 fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
-fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version = "0.105.0+1.21.1" }
+fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version = "0.106.0+1.21.1" }
 fabric-languageKotlin = { module = "net.fabricmc:fabric-language-kotlin", version = "1.12.2+kotlin.2.0.20" }
 
 [plugins]
