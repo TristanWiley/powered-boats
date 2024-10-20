@@ -73,7 +73,7 @@ class FurnaceBoatEntity(entityType: EntityType<FurnaceBoatEntity>, world: World)
     }
 
     override fun getVelocityMultiplier(): Float {
-        return if (isLit && world.getBlockState(blockPos).isOf(Blocks.WATER)) {
+        return if (isLit && isAccelerating && world.getBlockState(blockPos).isOf(Blocks.WATER)) {
             1.0f + (ConfigInitializer.activeConfig.boatSpeed / 100)
         } else super.getVelocityMultiplier()
     }
