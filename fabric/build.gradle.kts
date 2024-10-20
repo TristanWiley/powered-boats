@@ -33,6 +33,7 @@ loom {
         named("client") {
             client()
             ideConfigGenerated(true)
+            programArg("--username=Player1")
             vmArg("-XX:+AllowEnhancedClassRedefinition")
         }
         named("server") {

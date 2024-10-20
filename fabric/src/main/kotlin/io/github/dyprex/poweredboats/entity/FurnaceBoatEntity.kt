@@ -1,7 +1,8 @@
 package io.github.dyprex.poweredboats.entity
 
 import io.github.dyprex.poweredboats.Constants
-import io.github.dyprex.poweredboats.PoweredBoatsInitializer
+import io.github.dyprex.poweredboats.config.ConfigInitializer
+import io.github.dyprex.poweredboats.item.ItemInitializer
 import net.minecraft.block.Blocks
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.SpawnGroup
@@ -28,7 +29,7 @@ class FurnaceBoatEntity(entityType: EntityType<FurnaceBoatEntity>, world: World)
     val isLit: Boolean
         get() = dataTracker.get(LIT)
 
-    constructor(world: World) : this(PoweredBoatsInitializer.furnaceBoatEntityType, world)
+    constructor(world: World) : this(EntityInitializer.furnaceBoatEntityType, world)
 
     override fun initDataTracker(builder: DataTracker.Builder) {
         super.initDataTracker(builder)
@@ -73,7 +74,7 @@ class FurnaceBoatEntity(entityType: EntityType<FurnaceBoatEntity>, world: World)
 
     override fun getVelocityMultiplier(): Float {
         return if (isLit && world.getBlockState(blockPos).isOf(Blocks.WATER)) {
-            1.04F
+            1.0f + (ConfigInitializer.activeConfig.boatSpeed / 100)
         } else super.getVelocityMultiplier()
     }
 
@@ -86,7 +87,7 @@ class FurnaceBoatEntity(entityType: EntityType<FurnaceBoatEntity>, world: World)
     }
 
     override fun asItem(): Item {
-        return PoweredBoatsInitializer.furnaceBoatItems.first { it.type == variant }
+        return ItemInitializer.furnaceBoatItems.first { it.type == variant }
     }
 
     private fun setLit(lit: Boolean) {

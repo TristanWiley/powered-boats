@@ -1,10 +1,7 @@
-package io.github.dyprex.poweredboats
+package io.github.dyprex.poweredboats.item
 
-import io.github.dyprex.poweredboats.entity.FurnaceBoatEntity
-import io.github.dyprex.poweredboats.item.FurnaceBoatItem
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
-import net.minecraft.entity.EntityType
 import net.minecraft.entity.vehicle.BoatEntity.Type.*
 import net.minecraft.item.BoatItem
 import net.minecraft.item.ItemGroup
@@ -13,18 +10,11 @@ import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 
-object PoweredBoatsInitializer : ModInitializer {
-
-    val furnaceBoatEntityType: EntityType<FurnaceBoatEntity> =
-        Registry.register(
-            Registries.ENTITY_TYPE,
-            FurnaceBoatEntity.IDENTIFIER,
-            FurnaceBoatEntity.TYPE,
-        )
+object ItemInitializer : ModInitializer {
 
     private val supportedBoatTypes =
         listOf(ACACIA, BIRCH, CHERRY, DARK_OAK, JUNGLE, MANGROVE, OAK, SPRUCE)
-    val furnaceBoatItems =
+    val furnaceBoatItems: List<FurnaceBoatItem> =
         supportedBoatTypes.map { type ->
             Registry.register(
                 Registries.ITEM,

@@ -17,13 +17,25 @@
   "entrypoints": {
     "main": [
       {
-        "value": "io.github.dyprex.poweredboats.PoweredBoatsInitializer",
+        "value": "io.github.dyprex.poweredboats.config.ConfigInitializer",
+        "adapter": "kotlin"
+      },
+      {
+        "value": "io.github.dyprex.poweredboats.entity.EntityInitializer",
+        "adapter": "kotlin"
+      },
+      {
+        "value": "io.github.dyprex.poweredboats.item.ItemInitializer",
         "adapter": "kotlin"
       }
     ],
     "client": [
       {
-        "value": "io.github.dyprex.poweredboats.PoweredBoatsClientInitializer",
+        "value": "io.github.dyprex.poweredboats.config.ConfigClientInitializer",
+        "adapter": "kotlin"
+      },
+      {
+        "value": "io.github.dyprex.poweredboats.render.entity.EntityRenderClientInitializer",
         "adapter": "kotlin"
       }
     ]
