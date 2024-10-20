@@ -5,7 +5,7 @@ import java.util.*
 import kotlin.io.path.inputStream
 import kotlin.io.path.outputStream
 
-data class ModConfig(val boatSpeed: Float = 4.0f) {
+data class ModConfig(val boatSpeed: Float = 5.0f) {
 
     init {
         require(boatSpeed > 0 && boatSpeed <= 10) {
