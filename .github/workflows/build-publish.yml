@@ -2,8 +2,6 @@ name: Build (and publish release artifacts)
 
 on:
   push:
-    branches:
-      - master
     tags:
       - v*
 
