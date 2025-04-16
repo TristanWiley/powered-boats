@@ -40,7 +40,6 @@
       }
     ]
   },
-  "accessWidener": "powered-boats.accesswidener",
   "depends": {
     "fabricloader": ">=${fabric_loader}",
     "minecraft": "~${minecraft}",

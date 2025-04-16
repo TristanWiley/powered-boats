@@ -1,26 +1,18 @@
 package io.github.dyprex.poweredboats.item
 
+import io.github.dyprex.poweredboats.Constants
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
-import net.minecraft.entity.vehicle.BoatEntity.Type.*
-import net.minecraft.item.BoatItem
-import net.minecraft.item.ItemGroup
-import net.minecraft.item.ItemGroups
-import net.minecraft.item.ItemStack
-import net.minecraft.registry.Registries
-import net.minecraft.registry.Registry
+import net.minecraft.item.*
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.RegistryKeys
 
 object ItemInitializer : ModInitializer {
 
-    private val supportedBoatTypes =
-        listOf(ACACIA, BIRCH, CHERRY, DARK_OAK, JUNGLE, MANGROVE, OAK, SPRUCE)
-    val furnaceBoatItems: List<FurnaceBoatItem> =
-        supportedBoatTypes.map { type ->
-            Registry.register(
-                Registries.ITEM,
-                FurnaceBoatItem.identifierForBoatType(type),
-                FurnaceBoatItem(type),
-            )
+    private val furnaceBoatItems: List<FurnaceBoatItem> =
+        Constants.SUPPORTED_BOAT_TYPES.map { type ->
+            val registryKey: RegistryKey<Item> = RegistryKey.of(RegistryKeys.ITEM, FurnaceBoatItem.identifierForBoatItem(type))
+            Items.register(registryKey) { FurnaceBoatItem(boatItemSupplier = { type }, key = registryKey) } as FurnaceBoatItem
         }
 
     override fun onInitialize() {

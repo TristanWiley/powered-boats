@@ -1,8 +1,8 @@
 package io.github.dyprex.poweredboats.entity
 
 import io.github.dyprex.poweredboats.Constants
+import io.github.dyprex.poweredboats.SupportedBoatType
 import io.github.dyprex.poweredboats.config.ConfigInitializer
-import io.github.dyprex.poweredboats.item.ItemInitializer
 import net.minecraft.block.Blocks
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.SpawnGroup
@@ -16,20 +16,22 @@ import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.recipe.Ingredient
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import java.util.function.Supplier
 
-class FurnaceBoatEntity(entityType: EntityType<FurnaceBoatEntity>, world: World) :
-    BoatEntity(entityType, world) {
+class FurnaceBoatEntity(entityType: EntityType<FurnaceBoatEntity>, world: World, supplier: Supplier<Item>) :
+    BoatEntity(entityType, world, supplier) {
 
     private var fuelTicksLeft = 0
     val isLit: Boolean
         get() = dataTracker.get(LIT)
-
-    constructor(world: World) : this(EntityInitializer.furnaceBoatEntityType, world)
+    val boatTypeItem = supplier.get()
 
     override fun initDataTracker(builder: DataTracker.Builder) {
         super.initDataTracker(builder)
@@ -67,7 +69,7 @@ class FurnaceBoatEntity(entityType: EntityType<FurnaceBoatEntity>, world: World)
                     fuelTicksLeft = 6000 // = 5 minutes
                 }
                 itemStack.decrementUnlessCreative(1, player)
-                ActionResult.success(world.isClient)
+                ActionResult.SUCCESS
             } else ActionResult.FAIL
         } else super.interact(player, hand)
     }
@@ -84,10 +86,6 @@ class FurnaceBoatEntity(entityType: EntityType<FurnaceBoatEntity>, world: World)
 
     override fun getMaxPassengers(): Int {
         return 1
-    }
-
-    override fun asItem(): Item {
-        return ItemInitializer.furnaceBoatItems.first { it.type == variant }
     }
 
     private fun setLit(lit: Boolean) {
@@ -111,14 +109,19 @@ class FurnaceBoatEntity(entityType: EntityType<FurnaceBoatEntity>, world: World)
         private const val ID = "furnace_boat"
         private const val FUEL_NBT_TAG = "FuelTicksLeft"
 
-        val IDENTIFIER: Identifier = Identifier.of(Constants.MOD_ID, ID)
-        val TYPE: EntityType<FurnaceBoatEntity> =
-            EntityType.Builder.create(::FurnaceBoatEntity, SpawnGroup.MISC)
-                // see net.minecraft.entity.EntityType.BOAT
-                .dimensions(1.375F, 0.5625F)
-                .eyeHeight(0.5625F)
-                .maxTrackingRange(10)
-                .build(ID)
+        val TYPES: Map<SupportedBoatType, EntityType<FurnaceBoatEntity>> =
+            SupportedBoatType.entries.associateWith { boatType ->
+                EntityType.Builder.create(
+                    { type, world -> FurnaceBoatEntity(type, world) { boatType.item } },
+                    SpawnGroup.MISC
+                )
+                    .dimensions(1.375F, 0.5625F)
+                    .eyeHeight(0.5625F)
+                    .maxTrackingRange(10)
+                    .build(
+                        RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(Constants.MOD_ID, "furnace_boat_${boatType.name.lowercase()}"))
+                    )
+            }
         private val ACCEPTABLE_FUEL = Ingredient.ofItems(*arrayOf(Items.COAL, Items.CHARCOAL))
 
         private val LIT: TrackedData<Boolean> =

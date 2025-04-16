@@ -4,12 +4,8 @@
     "#O"
   ],
   "key": {
-    "#": {
-      "item": "minecraft:furnace"
-    },
-    "O": {
-      "item": "minecraft:acacia_boat"
-    }
+    "#": "minecraft:furnace",
+    "O": "minecraft:acacia_boat"
   },
   "result": {
     "id": "powered-boats:acacia_furnace_boat",

@@ -7,8 +7,12 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
 object EntityRenderClientInitializer : ClientModInitializer {
 
     override fun onInitializeClient() {
-        EntityRendererRegistry.register(FurnaceBoatEntity.TYPE) { context ->
-            FurnaceBoatEntityRenderer(context)
+        FurnaceBoatEntity.TYPES.forEach { (type, entityType) ->
+            EntityRendererRegistry.register(entityType) { context ->
+                FurnaceBoatEntityRenderer(context).apply {
+                    setBoatType(type)
+                }
+            }
         }
     }
 }

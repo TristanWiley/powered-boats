@@ -14,9 +14,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 object ConfigInitializer : ModInitializer {
-
     private val logger: Logger = LoggerFactory.getLogger(MOD_ID)
-
     lateinit var activeConfig: ModConfig
 
     override fun onInitialize() {

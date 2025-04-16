@@ -4,7 +4,6 @@ import net.darkhax.curseforgegradle.TaskPublishCurseForge
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.fabric.loom)
-    alias(libs.plugins.spotless)
     alias(libs.plugins.githubRelease)
     alias(libs.plugins.curseforgeGradle)
 }
@@ -21,7 +20,6 @@ kotlin {
 }
 
 loom {
-    accessWidenerPath.set(file("src/main/resources/powered-boats.accesswidener"))
     splitEnvironmentSourceSets()
     mods {
         create("powered-boats") {
@@ -34,7 +32,6 @@ loom {
             client()
             ideConfigGenerated(true)
             programArg("--username=Player1")
-            vmArg("-XX:+AllowEnhancedClassRedefinition")
         }
         named("server") {
             server()
@@ -60,12 +57,6 @@ githubRelease {
 idea {
     module {
         excludeDirs.add(file("run"))
-    }
-}
-
-spotless {
-    kotlin {
-        ktfmt("0.52").kotlinlangStyle()
     }
 }
 
